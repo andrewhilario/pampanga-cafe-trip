@@ -1,18 +1,30 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, Plus, Sparkles, Clock, CalendarHeart } from 'lucide-react';
+import { X, Plus, Sparkles, Clock, CalendarHeart, Wand2 } from 'lucide-react';
 import { useTrip } from '@/context/TripContext';
 
 export const AddActivityModal: React.FC = () => {
-  const { isAddActivityModalOpen, setIsAddActivityModalOpen, itineraryDay, addItineraryStop, showToast } = useTrip();
+  const { isAddActivityModalOpen, setIsAddActivityModalOpen, itineraryDay, addItineraryStop, showToast, spots } = useTrip();
 
   const [title, setTitle] = useState('');
   const [time, setTime] = useState('');
   const [description, setDescription] = useState('');
   const [orderRecommendation, setOrderRecommendation] = useState('');
+  const [spotId, setSpotId] = useState<string | undefined>(undefined);
 
   if (!isAddActivityModalOpen) return null;
+
+  const handleSelectSpot = (selectedId: string) => {
+    if (!selectedId) return;
+    const spot = spots.find((s) => s.id === selectedId);
+    if (!spot) return;
+
+    setTitle(spot.name);
+    setDescription(spot.vibe);
+    setOrderRecommendation(spot.mustOrder);
+    setSpotId(spot.id);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,24 +33,32 @@ export const AddActivityModal: React.FC = () => {
       return;
     }
 
+    const matchedSpot = spotId ? spots.find((s) => s.id === spotId) : undefined;
+
     addItineraryStop(itineraryDay, {
       title: title.trim(),
       time: time.trim() || 'Flexible Time',
       description: description.trim() || 'Exciting couple activity planned together!',
       orderRecommendation: orderRecommendation.trim() || undefined,
-      icon: 'coffee',
+      spotId: spotId || undefined,
+      spotLabel: spotId ? 'View on Map' : undefined,
+      icon: matchedSpot?.isTopSpot ? 'heart' : matchedSpot?.type === 'heritage' ? 'utensils' : 'coffee',
+      badgeText: matchedSpot?.isTopSpot ? 'Top Pick 💜' : 'Custom Stop',
+      isTopSpot: matchedSpot?.isTopSpot,
+      tiktokUrl: matchedSpot?.tiktokUrl,
     });
 
     setTitle('');
     setTime('');
     setDescription('');
     setOrderRecommendation('');
+    setSpotId(undefined);
     setIsAddActivityModalOpen(false);
   };
 
   return (
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in">
-      <div className="bg-latte-50 w-full max-w-md rounded-3xl p-5 border border-latte-300 shadow-2xl space-y-4">
+      <div className="bg-latte-50 w-full max-w-md rounded-3xl p-5 border border-latte-300 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
         <div className="flex items-center justify-between pb-2 border-b border-latte-200">
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 rounded-full bg-latte-900 text-latte-100 flex items-center justify-center">
@@ -57,6 +77,27 @@ export const AddActivityModal: React.FC = () => {
           >
             <X className="w-5 h-5" />
           </button>
+        </div>
+
+        {/* 1-Click Quick Select Cafe */}
+        <div className="bg-white p-3 rounded-2xl border border-latte-200">
+          <label className="font-bold text-latte-800 text-xs flex items-center gap-1.5 mb-1.5">
+            <Wand2 className="w-3.5 h-3.5 text-terracotta-500" />
+            <span>1-Click Auto-fill from Saved Cafes:</span>
+          </label>
+          <select
+            value={spotId || ''}
+            onChange={(e) => handleSelectSpot(e.target.value)}
+            className="w-full px-3 py-2 rounded-xl bg-latte-50 border border-latte-300 text-latte-900 focus:outline-none focus:ring-1 focus:ring-terracotta-500 text-xs"
+          >
+            <option value="">-- Choose a cafe to auto-fill details --</option>
+            {spots.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.isTopSpot ? '⭐ [TOP SPOT] ' : s.tags.includes('tiktok') ? '🎵 [TikTok] ' : ''}
+                {s.name} ({s.area})
+              </option>
+            ))}
+          </select>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-3 text-xs">

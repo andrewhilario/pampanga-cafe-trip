@@ -9,6 +9,8 @@ export const MapFilterBar: React.FC = () => {
 
   const filters: { id: MapFilter; label: string }[] = [
     { id: 'all', label: `All (${spots.length})` },
+    { id: 'friends', label: '💜 Her Top Pick (Friends)' },
+    { id: 'tiktok', label: '🎵 TikTok Saves (7)' },
     { id: 'day1', label: 'Day 1: Clark & Amsic' },
     { id: 'day2', label: 'Day 2: Mimosa & Eats' },
     { id: 'day3', label: 'Day 3: San Fernando' },

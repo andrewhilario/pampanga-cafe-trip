@@ -63,7 +63,20 @@ body {
 .pin-day2 { background: #6A8E72; color: white; }
 .pin-day3 { background: #D4973B; color: white; }
 .pin-dau { background: #2C1810; color: #F7F3EA; border-color: #DFCDB8; }
+.pin-friends {
+  background: linear-gradient(135deg, #7C3AED, #DB2777);
+  color: #FEF08A;
+  border-color: #FBBF24;
+  box-shadow: 0 0 16px rgba(124, 58, 237, 0.6);
+  animation: bounce-subtle 2.5s infinite ease-in-out;
+}
+.pin-tiktok { background: #0F172A; color: #38BDF8; border-color: #F43F5E; }
 .pin-custom { background: #8E44AD; color: white; }
+
+@keyframes bounce-subtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px) scale(1.08); }
+}
 
 /* Pulse animation for user live location */
 .user-live-pin {

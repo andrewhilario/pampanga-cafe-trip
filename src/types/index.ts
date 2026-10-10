@@ -4,9 +4,9 @@ export type SpotType = 'specialty' | 'heritage' | 'meeting' | 'custom';
 
 export type TabId = 'map' | 'itinerary' | 'cafes' | 'diary' | 'airbnb';
 
-export type MapFilter = 'all' | 'day1' | 'day2' | 'day3' | 'specialty' | 'food';
+export type MapFilter = 'all' | 'friends' | 'tiktok' | 'day1' | 'day2' | 'day3' | 'specialty' | 'food';
 
-export type CatalogTag = 'all' | 'clark' | 'angeles' | 'sanfernando' | 'heritage';
+export type CatalogTag = 'all' | 'friends' | 'tiktok' | 'clark' | 'angeles' | 'sanfernando' | 'heritage';
 
 export interface Spot {
   id: string;
@@ -24,6 +24,9 @@ export interface Spot {
   mapsUrl: string;
   wazeUrl: string;
   tags: string[];
+  tiktokUrl?: string;
+  tiktokCreator?: string;
+  isTopSpot?: boolean;
 }
 
 export interface DiaryEntry {
@@ -46,10 +49,12 @@ export interface ItineraryStop {
   spotLabel?: string;
   secondarySpotId?: string;
   secondarySpotLabel?: string;
-  icon: 'briefcase' | 'users' | 'coffee' | 'home' | 'utensils' | 'moon' | 'camera' | 'flower' | 'pizza' | 'check' | 'shopping-bag' | 'bus';
+  icon: 'briefcase' | 'users' | 'coffee' | 'home' | 'utensils' | 'moon' | 'camera' | 'flower' | 'pizza' | 'check' | 'shopping-bag' | 'bus' | 'heart' | 'sparkles' | 'film';
   orderRecommendation?: string;
   tip?: string;
   driveNote?: string;
+  isTopSpot?: boolean;
+  tiktokUrl?: string;
 }
 
 export interface ItineraryDay {

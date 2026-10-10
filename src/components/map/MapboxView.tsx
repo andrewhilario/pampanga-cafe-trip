@@ -36,7 +36,9 @@ export const MapboxView: React.FC = () => {
   const [is3DPitched, setIs3DPitched] = useState(false);
 
   const getPinClass = (spot: Spot) => {
+    if (spot.isTopSpot || spot.tags?.includes('friends')) return 'pin-friends';
     if (spot.id === 'dau-terminal') return 'pin-dau';
+    if (spot.tags?.includes('tiktok')) return 'pin-tiktok';
     if (spot.day === 'day1') return 'pin-day1';
     if (spot.day === 'day2') return 'pin-day2';
     if (spot.day === 'day3') return 'pin-day3';
@@ -44,7 +46,9 @@ export const MapboxView: React.FC = () => {
   };
 
   const getPinEmoji = (spot: Spot) => {
+    if (spot.isTopSpot || spot.tags?.includes('friends')) return '💜';
     if (spot.id === 'dau-terminal') return '🚌';
+    if (spot.tags?.includes('matcha')) return '🍵';
     if (spot.type === 'heritage') return '🥢';
     if (spot.category.toLowerCase().includes('bakery')) return '🥐';
     return '☕';
@@ -116,6 +120,8 @@ export const MapboxView: React.FC = () => {
 
     const filteredSpots = spots.filter((spot) => {
       if (mapFilter === 'all') return true;
+      if (mapFilter === 'friends') return spot.isTopSpot || spot.tags?.includes('friends');
+      if (mapFilter === 'tiktok') return spot.tags?.includes('tiktok');
       if (mapFilter === 'day1') return spot.day === 'day1';
       if (mapFilter === 'day2') return spot.day === 'day2';
       if (mapFilter === 'day3') return spot.day === 'day3';
@@ -125,11 +131,15 @@ export const MapboxView: React.FC = () => {
     });
 
     filteredSpots.forEach((spot) => {
+      const isTop = spot.isTopSpot || spot.tags?.includes('friends');
       const el = document.createElement('div');
       el.className = `custom-map-pin ${getPinClass(spot)}`;
-      el.style.width = '34px';
-      el.style.height = '34px';
-      el.style.fontSize = '15px';
+      el.style.width = isTop ? '40px' : '34px';
+      el.style.height = isTop ? '40px' : '34px';
+      el.style.fontSize = isTop ? '18px' : '15px';
+      if (isTop) {
+        el.style.zIndex = '40';
+      }
       el.innerHTML = `<span>${getPinEmoji(spot)}</span>`;
 
       el.addEventListener('click', (e) => {

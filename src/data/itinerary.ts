@@ -150,28 +150,32 @@ export const ITINERARY_DAYS: ItineraryDay[] = [
   {
     day: 3,
     date: 'Sunday, Oct 19',
-    badge: 'Day 3 • Pasalubong & Sendoff',
+    badge: 'Day 3 • Her Dream Spot & Sendoff',
     badgeColor: 'bg-white/20 text-white',
-    title: 'Specialty Roasts & Sendoff',
-    subtitle: 'Sage Day brews, Mila’s lunch, pasalubong shopping, and bus sendoff.',
-    gradientClass: 'from-[#8F5E18] via-[#B57C26] to-[#A94E35]',
+    title: 'F.R.I.E.N.D.S Cafe & Sweet Sendoff',
+    subtitle: 'Central Perk photos at Milk Fridge, delicious lunch, pasalubong run, and Dau hugs.',
+    gradientClass: 'from-[#6B21A8] via-[#8F5E18] to-[#A94E35]',
     stops: [
       {
         id: 'stop-3-1',
         time: '09:30 AM - 10:15 AM',
         title: 'Checkout & Pack Souvenirs',
-        description: 'Pack luggage and prepare for the San Fernando side trip.',
+        description: 'Pack luggage and head towards San Fernando for her dream cafe stop.',
         icon: 'check'
       },
       {
         id: 'stop-3-2',
         time: '10:45 AM - 12:15 PM',
-        title: 'Specialty Coffee @ Sage Day',
-        description: 'Minimalist green cafe serving Yardstick beans, matcha, and waffles.',
-        icon: 'coffee',
-        spotId: 'sage-day',
-        spotLabel: 'View on Map',
-        orderRecommendation: 'Honey Butter Waffles & Sea Salt Latte.'
+        badgeText: 'Top Highlight 💜',
+        title: 'Her Top Pick: F.R.I.E.N.D.S Themed Cafe @ Milk Fridge',
+        description: "Her all-time favorite series! Lounge on the iconic Central Perk orange sofa, snap photos with Monica's purple door & Phoebe's guitar, and sip limited edition themed brews.",
+        icon: 'heart',
+        spotId: 'friends-milk-fridge',
+        spotLabel: 'View Friends Cafe',
+        orderRecommendation: "Central Perk Special Brews, Monica's Caramel Macchiato & Phoebe's Fruit Tea.",
+        isTopSpot: true,
+        tiktokUrl: 'https://www.tiktok.com/@_waineamari/photo/7658545471350344981',
+        tip: 'Next door in Greenfields: Mudcha Club for fresh ceremonial matcha!'
       },
       {
         id: 'stop-3-3',

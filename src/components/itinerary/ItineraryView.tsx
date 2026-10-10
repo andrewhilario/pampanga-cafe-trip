@@ -23,6 +23,8 @@ import {
   Pencil,
   Plus,
   RotateCcw,
+  Heart,
+  Video,
 } from 'lucide-react';
 import { useTrip } from '@/context/TripContext';
 
@@ -84,6 +86,12 @@ export const ItineraryView: React.FC = () => {
         return <ShoppingBag className="w-2.5 h-2.5" />;
       case 'bus':
         return <Bus className="w-2.5 h-2.5" />;
+      case 'heart':
+        return <Heart className="w-2.5 h-2.5 fill-white" />;
+      case 'sparkles':
+        return <Sparkles className="w-2.5 h-2.5" />;
+      case 'film':
+        return <Video className="w-2.5 h-2.5" />;
       default:
         return <Coffee className="w-2.5 h-2.5" />;
     }
@@ -198,6 +206,8 @@ export const ItineraryView: React.FC = () => {
                 className={`absolute -left-6 top-1.5 w-5 h-5 rounded-full border-2 border-white flex items-center justify-center text-white text-[10px] shadow-sm transition ${
                   isDone
                     ? 'bg-sage-600'
+                    : stop.isTopSpot
+                    ? 'bg-purple-600 border-yellow-300 ring-2 ring-purple-300 shadow-md'
                     : itineraryDay === 1
                     ? 'bg-terracotta-500'
                     : itineraryDay === 2
@@ -213,6 +223,8 @@ export const ItineraryView: React.FC = () => {
                 className={`w-full p-4 rounded-2xl border transition shadow-sm ${
                   isDone
                     ? 'border-sage-300 bg-sage-50/70 text-latte-800'
+                    : stop.isTopSpot
+                    ? 'border-purple-300 bg-purple-50/40 hover:border-purple-500 ring-1 ring-purple-200 text-latte-900'
                     : 'border-latte-200 bg-white hover:border-terracotta-400 text-latte-900'
                 }`}
               >
@@ -221,6 +233,8 @@ export const ItineraryView: React.FC = () => {
                     className={`text-xs font-bold ${
                       isDone
                         ? 'text-sage-600 line-through opacity-80'
+                        : stop.isTopSpot
+                        ? 'text-purple-700'
                         : itineraryDay === 1
                         ? 'text-terracotta-600'
                         : itineraryDay === 2
@@ -242,7 +256,13 @@ export const ItineraryView: React.FC = () => {
                     </button>
 
                     {stop.badgeText ? (
-                      <span className="text-[10px] font-semibold text-latte-700 bg-latte-100 px-2 py-0.5 rounded-md border border-latte-200">
+                      <span
+                        className={`text-[10px] font-semibold px-2 py-0.5 rounded-md border ${
+                          stop.isTopSpot
+                            ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white border-purple-400 shadow-sm font-bold'
+                            : 'text-latte-700 bg-latte-100 border-latte-200'
+                        }`}
+                      >
                         {stop.badgeText}
                       </span>
                     ) : (
@@ -308,6 +328,18 @@ export const ItineraryView: React.FC = () => {
                       <MapPin className="w-3 h-3 text-terracotta-500" />
                       <span>{stop.spotLabel || 'View on Map'}</span>
                     </button>
+                  )}
+
+                  {stop.tiktokUrl && (
+                    <a
+                      href={stop.tiktokUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[11px] text-pink-600 bg-pink-50 hover:bg-pink-100 px-2.5 py-1 rounded-lg font-bold flex items-center gap-1 transition active:scale-95 border border-pink-200 shadow-sm"
+                    >
+                      <Video className="w-3 h-3 text-pink-500" />
+                      <span>TikTok Video</span>
+                    </a>
                   )}
 
                   {stop.secondarySpotId && (

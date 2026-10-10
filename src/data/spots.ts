@@ -1,6 +1,33 @@
 import { Spot } from '@/types';
 
 export const INITIAL_SPOTS: Spot[] = [
+  // ==========================================
+  // TOP SPOT: HER FAVORITE SERIES (F.R.I.E.N.D.S CAFE)
+  // ==========================================
+  {
+    id: 'friends-milk-fridge',
+    name: 'Milk Fridge • F.R.I.E.N.D.S Themed Cafe',
+    category: 'F.R.I.E.N.D.S Experience & Cafe',
+    area: 'Greenfields, Sindalan, San Fernando',
+    day: 'day3',
+    type: 'specialty',
+    lat: 15.0688,
+    lng: 120.6688,
+    hours: '11:00 AM - 10:00 PM',
+    vibe: "Her favorite series! Iconic Central Perk orange velvet sofa, Monica's purple door, Smelly Cat guitar & photo-ops 💜🛋️",
+    mustOrder: "Central Perk Special Brews, Monica's Iced Caramel Macchiato & Phoebe's Fruit Tea",
+    photo: '/images/milk-fridge-friends.jpg',
+    mapsUrl: 'https://maps.google.com/?q=Milk+Fridge+Greenfields+San+Fernando+Pampanga',
+    wazeUrl: 'https://waze.com/ul?ll=15.0688,120.6688&navigate=yes',
+    tiktokUrl: 'https://www.tiktok.com/@_waineamari/photo/7658545471350344981',
+    tiktokCreator: '@_waineamari',
+    tags: ['friends', 'tiktok', 'sanfernando', 'aesthetic', 'specialty'],
+    isTopSpot: true,
+  },
+
+  // ==========================================
+  // DAY 1 SPOTS & ARRIVAL
+  // ==========================================
   {
     id: 'dau-terminal',
     name: 'Dau Bus Terminal (Pickup Point)',
@@ -53,6 +80,44 @@ export const INITIAL_SPOTS: Spot[] = [
     tags: ['specialty', 'angeles', 'aesthetic']
   },
   {
+    id: 'arch-cafe',
+    name: 'ARCH Cafe',
+    category: 'Minimalist Architectural Coffee',
+    area: 'Santo Rosario St., Angeles City',
+    day: 'day1',
+    type: 'specialty',
+    lat: 15.1332,
+    lng: 120.5901,
+    hours: '08:00 AM - 10:00 PM',
+    vibe: 'Clean architectural brutalism, warm wood, high ceilings, super chill date vibes',
+    mustOrder: 'Ube Coconut Coffee, Signature Spanish Latte & Butter Croissant',
+    photo: '/images/arch-cafe.jpg',
+    mapsUrl: 'https://maps.google.com/?q=ARCH+Cafe+Santo+Rosario+Angeles+Pampanga',
+    wazeUrl: 'https://waze.com/ul?ll=15.1332,120.5901&navigate=yes',
+    tiktokUrl: 'https://www.tiktok.com/@bacanisam/video/7676818811747601672',
+    tiktokCreator: '@bacanisam',
+    tags: ['tiktok', 'angeles', 'specialty', 'aesthetic']
+  },
+  {
+    id: 'cafe-beni',
+    name: 'Cafe Beni (24/7)',
+    category: '24/7 Specialty Cafe & Bakery',
+    area: 'Malabanias, Angeles City',
+    day: 'day1',
+    type: 'specialty',
+    lat: 15.1612,
+    lng: 120.5841,
+    hours: 'Open 24/7 All Day & Night',
+    vibe: 'Bright Korean glasshouse aesthetic, warm night lighting, fresh bakes anytime',
+    mustOrder: 'Beni Signature Cream Latte, Strawberry Shaken & Salt Bread',
+    photo: '/images/cafe-beni.jpg',
+    mapsUrl: 'https://maps.google.com/?q=Cafe+Beni+Malabanias+Angeles+City',
+    wazeUrl: 'https://waze.com/ul?ll=15.1612,120.5841&navigate=yes',
+    tiktokUrl: 'https://www.tiktok.com/@bacanisam/video/7670139494875680007',
+    tiktokCreator: '@bacanisam',
+    tags: ['tiktok', 'angeles', 'specialty', 'latenight']
+  },
+  {
     id: 'aling-lucing',
     name: "Aling Lucing Sisig (The Original)",
     category: 'Kapampangan Heritage Food',
@@ -86,6 +151,10 @@ export const INITIAL_SPOTS: Spot[] = [
     wazeUrl: 'https://waze.com/ul?ll=15.1585,120.5931&navigate=yes',
     tags: ['specialty', 'angeles', 'aesthetic']
   },
+
+  // ==========================================
+  // DAY 2 SPOTS
+  // ==========================================
   {
     id: 'baker-j',
     name: 'Baker J Clark',
@@ -119,6 +188,44 @@ export const INITIAL_SPOTS: Spot[] = [
     mapsUrl: 'https://maps.google.com/?q=Cycles+and+Brew+Clark',
     wazeUrl: 'https://waze.com/ul?ll=15.1832,120.5328&navigate=yes',
     tags: ['specialty', 'clark']
+  },
+  {
+    id: 'andante-cafe',
+    name: 'Andante Café and Lounge',
+    category: 'Spacious European Lounge & Dining',
+    area: 'Clark Freeport Zone',
+    day: 'day2',
+    type: 'specialty',
+    lat: 15.1785,
+    lng: 120.5350,
+    hours: '09:00 AM - 11:00 PM',
+    vibe: 'Grand high-ceiling lounge, plush armchairs, incredible ambiance and attentive staff',
+    mustOrder: 'Truffle Cream Pasta, Spanish Latte, Ribeye Salpicao & Pistachio Basque Cake',
+    photo: '/images/andante-cafe.jpg',
+    mapsUrl: 'https://maps.google.com/?q=Andante+Cafe+and+Lounge+Clark+Pampanga',
+    wazeUrl: 'https://waze.com/ul?ll=15.1785,120.5350&navigate=yes',
+    tiktokUrl: 'https://www.tiktok.com/@mrsjemendoza225/photo/7672397828546743572',
+    tiktokCreator: '@mrsjemendoza225',
+    tags: ['tiktok', 'clark', 'specialty', 'dining']
+  },
+  {
+    id: 'cafe-noelle',
+    name: 'Cafe Noelle Clark',
+    category: 'Heartwarming Bistro & Artisan Cakes',
+    area: 'Pavillion 14, Clark Center, Clark Freeport',
+    day: 'day2',
+    type: 'specialty',
+    lat: 15.1765,
+    lng: 120.5280,
+    hours: '10:00 AM - 09:00 PM',
+    vibe: 'Cozy, heartwarming bistro with fairy lights, comfort pasta, and legendary handcrafted cakes',
+    mustOrder: 'Chocnut Torte, Spinach Dip with Toasted Baguettes & Truffle Chicken Linguine',
+    photo: '/images/cafe-noelle.jpg',
+    mapsUrl: 'https://maps.google.com/?q=Cafe+Noelle+Clark+Center+Pampanga',
+    wazeUrl: 'https://waze.com/ul?ll=15.1765,120.5280&navigate=yes',
+    tiktokUrl: 'https://www.tiktok.com/@bacanisam/video/7677931392793185544',
+    tiktokCreator: '@bacanisam',
+    tags: ['tiktok', 'clark', 'bakery', 'food', 'specialty']
   },
   {
     id: 'matam-ih',
@@ -187,6 +294,48 @@ export const INITIAL_SPOTS: Spot[] = [
     mapsUrl: 'https://maps.google.com/?q=Cafe+Dia+Clark',
     wazeUrl: 'https://waze.com/ul?ll=15.1760,120.5401&navigate=yes',
     tags: ['specialty', 'clark', 'aesthetic']
+  },
+
+  // ==========================================
+  // DAY 3 SPOTS (SAN FERNANDO & SPECIALTY)
+  // ==========================================
+  {
+    id: 'mono-coffee',
+    name: 'Mono Coffee',
+    category: 'Sculpted Rock Bar & Specialty Brews',
+    area: 'Skytech IT Park, Mabalacat City',
+    day: 'day1',
+    type: 'specialty',
+    lat: 15.2150,
+    lng: 120.5815,
+    hours: '08:00 AM - 10:00 PM',
+    vibe: 'Dramatic sculpted stone cave wall, minimalist futuristic bar, specialty espresso extractions',
+    mustOrder: 'Flat White, Dirty Espresso with Vanilla Foam, Sea Salt Caramel Iced Latte',
+    photo: '/images/mono-coffee.jpg',
+    mapsUrl: 'https://maps.google.com/?q=Mono+Coffee+Skytech+IT+Park+Mabalacat',
+    wazeUrl: 'https://waze.com/ul?ll=15.2150,120.5815&navigate=yes',
+    tiktokUrl: 'https://www.tiktok.com/@patriciarepuyan.v/photo/7660728848027241735',
+    tiktokCreator: '@patriciarepuyan.v',
+    tags: ['tiktok', 'mabalacat', 'clark', 'specialty', 'aesthetic']
+  },
+  {
+    id: 'mudcha-club',
+    name: 'Mudcha Club',
+    category: 'Artisanal Matcha Bar & Coffee',
+    area: 'Greenfields, Sindalan, San Fernando',
+    day: 'day3',
+    type: 'specialty',
+    lat: 15.0685,
+    lng: 120.6695,
+    hours: '10:00 AM - 09:00 PM',
+    vibe: 'Vibrant pastel pink & matcha green retro-chic vibes, ceremonial grade matcha whisked fresh',
+    mustOrder: 'Ceremonial Grade Matcha Latte, Dirty Matcha Cloud & Strawberry Matcha Foam',
+    photo: '/images/mudcha-club.jpg',
+    mapsUrl: 'https://maps.google.com/?q=Mudcha+Club+Greenfields+Sindalan+San+Fernando',
+    wazeUrl: 'https://waze.com/ul?ll=15.0685,120.6695&navigate=yes',
+    tiktokUrl: 'https://www.tiktok.com/@bacanisam/video/7671891735475260680',
+    tiktokCreator: '@bacanisam',
+    tags: ['tiktok', 'sanfernando', 'matcha', 'specialty']
   },
   {
     id: 'sage-day',

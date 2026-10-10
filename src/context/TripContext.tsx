@@ -30,6 +30,7 @@ interface TripContextType {
   itineraryDays: ItineraryDay[];
   updateItineraryStop: (dayNumber: 1 | 2 | 3, stopId: string, updatedData: Partial<ItineraryStop>) => void;
   addItineraryStop: (dayNumber: 1 | 2 | 3, newStop: Omit<ItineraryStop, 'id'>) => void;
+  addSpotToItinerary: (spotId: string, dayNumber: 1 | 2 | 3) => void;
   deleteItineraryStop: (dayNumber: 1 | 2 | 3, stopId: string) => void;
   resetItinerary: () => void;
   editingStop: { day: 1 | 2 | 3; stop: ItineraryStop } | null;
@@ -63,7 +64,7 @@ interface TripContextType {
 
 const TripContext = createContext<TripContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'pampanga_trip_state_v4';
+const STORAGE_KEY = 'pampanga_trip_state_v5';
 const TOKEN_STORAGE_KEY = 'pampanga_mapbox_token';
 
 export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -226,6 +227,42 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
     [saveStateToStorage, showToast]
   );
 
+  const addSpotToItinerary = useCallback(
+    (spotId: string, dayNumber: 1 | 2 | 3) => {
+      const targetSpot = spots.find((s) => s.id === spotId);
+      if (!targetSpot) return;
+
+      const newStop: ItineraryStop = {
+        id: `stop-${dayNumber}-${Date.now()}`,
+        time: 'Flexible Time',
+        title: targetSpot.name,
+        description: targetSpot.vibe,
+        orderRecommendation: targetSpot.mustOrder,
+        spotId: targetSpot.id,
+        spotLabel: 'View on Map',
+        icon: targetSpot.isTopSpot ? 'heart' : targetSpot.type === 'heritage' ? 'utensils' : 'coffee',
+        badgeText: targetSpot.isTopSpot ? 'Top Pick 💜' : 'Added Activity',
+        isTopSpot: targetSpot.isTopSpot,
+        tiktokUrl: targetSpot.tiktokUrl,
+      };
+
+      setItineraryDays((prev) => {
+        const next = prev.map((dayPlan) => {
+          if (dayPlan.day !== dayNumber) return dayPlan;
+          return {
+            ...dayPlan,
+            stops: [...dayPlan.stops, newStop],
+          };
+        });
+        saveStateToStorage({ itineraryDays: next });
+        return next;
+      });
+
+      showToast(`Added ${targetSpot.name} to Day ${dayNumber}! ✨`);
+    },
+    [spots, saveStateToStorage, showToast]
+  );
+
   const deleteItineraryStop = useCallback(
     (dayNumber: 1 | 2 | 3, stopId: string) => {
       setItineraryDays((prev) => {
@@ -352,6 +389,7 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
         itineraryDays,
         updateItineraryStop,
         addItineraryStop,
+        addSpotToItinerary,
         deleteItineraryStop,
         resetItinerary,
         editingStop,
