@@ -13,36 +13,36 @@ export const SpotDetailSheet: React.FC = () => {
   const isVisited = !!visited[selectedSpot.id];
 
   let badgeText = 'Day 1';
-  let badgeClass = 'bg-terracotta-100 text-terracotta-600';
+  let badgeClass = 'bg-[#C86446] text-white';
 
   if (selectedSpot.id === 'dau-terminal') {
     badgeText = 'Pickup Point';
-    badgeClass = 'bg-latte-900 text-latte-100';
+    badgeClass = 'bg-[#2C1810] text-[#FDFBF7]';
   } else if (selectedSpot.day === 'day2') {
     badgeText = 'Day 2';
-    badgeClass = 'bg-emerald-100 text-emerald-700';
+    badgeClass = 'bg-[#54755B] text-white';
   } else if (selectedSpot.day === 'day3') {
     badgeText = 'Day 3';
-    badgeClass = 'bg-amber-100 text-amber-700';
+    badgeClass = 'bg-[#D4973B] text-white';
   } else if (selectedSpot.day === 'wishlist') {
     badgeText = 'Wishlist';
-    badgeClass = 'bg-purple-100 text-purple-700';
+    badgeClass = 'bg-[#8E44AD] text-white';
   }
 
   return (
-    <div className="absolute bottom-2 left-2 right-2 z-30 bg-latte-50 rounded-3xl p-4 shadow-drawer border border-latte-300 animate-in slide-in-from-bottom duration-200">
+    <div className="absolute bottom-2 left-2 right-2 z-30 bg-[#FDFBF7] rounded-3xl p-4 shadow-2xl border-2 border-latte-300 animate-in slide-in-from-bottom duration-200">
       <div className="flex items-center justify-between pb-2 border-b border-latte-200">
         <div className="flex items-center space-x-2">
-          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${badgeClass}`}>
+          <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${badgeClass} shadow-sm`}>
             {badgeText}
           </span>
-          <span className="text-xs text-latte-600 font-medium">
+          <span className="text-xs text-latte-700 font-semibold">
             {selectedSpot.category}
           </span>
         </div>
         <button
           onClick={() => setSelectedSpot(null)}
-          className="p-1 rounded-full text-latte-500 hover:bg-latte-200 transition"
+          className="p-1.5 rounded-full text-latte-600 hover:text-latte-900 hover:bg-latte-200 transition"
           aria-label="Close details"
         >
           <X className="w-5 h-5" />
@@ -50,7 +50,7 @@ export const SpotDetailSheet: React.FC = () => {
       </div>
 
       <div className="pt-3 flex gap-3">
-        <div className="w-20 h-20 rounded-2xl overflow-hidden bg-latte-200 shrink-0 relative shadow-sm">
+        <div className="w-20 h-20 rounded-2xl overflow-hidden bg-latte-200 shrink-0 relative shadow-sm border border-latte-200">
           <img
             src={selectedSpot.photo}
             alt={selectedSpot.name}
@@ -76,11 +76,11 @@ export const SpotDetailSheet: React.FC = () => {
         </div>
       </div>
 
-      <div className="mt-3.5 pt-3 border-t border-latte-200/80 flex items-center justify-between gap-2">
+      <div className="mt-3.5 pt-3 border-t border-latte-200 flex items-center justify-between gap-2">
         <div className="flex items-center space-x-2">
           <button
             onClick={() => toggleFavorite(selectedSpot.id)}
-            className="p-2.5 rounded-xl border border-latte-300 bg-white text-latte-700 hover:text-terracotta-500 active:scale-95 transition"
+            className="p-2.5 rounded-xl border border-latte-300 bg-white text-latte-700 hover:text-terracotta-500 active:scale-95 transition shadow-sm"
             title="Wishlist"
           >
             <Heart
@@ -89,7 +89,7 @@ export const SpotDetailSheet: React.FC = () => {
           </button>
           <button
             onClick={() => toggleVisited(selectedSpot.id)}
-            className="px-3 py-2 rounded-xl text-xs font-semibold border border-latte-300 bg-white text-latte-700 hover:bg-latte-100 active:scale-95 transition flex items-center gap-1.5"
+            className="px-3 py-2 rounded-xl text-xs font-semibold border border-latte-300 bg-white text-latte-700 hover:bg-latte-100 active:scale-95 transition flex items-center gap-1.5 shadow-sm"
           >
             <CheckCircle className={`w-4 h-4 ${isVisited ? 'text-sage-600 fill-sage-100' : 'text-latte-400'}`} />
             <span className={isVisited ? 'text-sage-600 font-bold' : 'text-latte-700'}>
@@ -103,7 +103,7 @@ export const SpotDetailSheet: React.FC = () => {
             href={selectedSpot.wazeUrl}
             target="_blank"
             rel="noreferrer"
-            className="px-3 py-2 rounded-xl text-xs font-bold bg-latte-200 text-latte-800 hover:bg-latte-300 active:scale-95 transition flex items-center gap-1"
+            className="px-3 py-2 rounded-xl text-xs font-bold bg-latte-200 text-latte-800 hover:bg-latte-300 active:scale-95 transition flex items-center gap-1 border border-latte-300"
           >
             <Compass className="w-3.5 h-3.5 text-latte-700" />
             <span>Waze</span>

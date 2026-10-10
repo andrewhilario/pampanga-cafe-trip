@@ -77,17 +77,28 @@ export const ItineraryView: React.FC = () => {
     }
   };
 
+  // Explicit solid gradients per day to guarantee zero transparency and high contrast
+  const getBannerStyle = (day: 1 | 2 | 3) => {
+    if (day === 1) {
+      return 'bg-gradient-to-r from-[#2C1810] via-[#5F442D] to-[#C86446] border border-[#5F442D]';
+    }
+    if (day === 2) {
+      return 'bg-gradient-to-r from-[#3D5A44] via-[#54755B] to-[#2C1810] border border-[#54755B]';
+    }
+    return 'bg-gradient-to-r from-[#8F5E18] via-[#B57C26] to-[#A94E35] border border-[#B57C26]';
+  };
+
   return (
-    <section className="px-4 py-4 space-y-6">
+    <section className="px-4 py-4 space-y-5">
       {/* Day Switcher Pills */}
       <div className="sticky top-14 z-20 bg-latte-50/95 backdrop-blur-md pt-1 pb-3">
-        <div className="grid grid-cols-3 gap-2 bg-latte-200/70 p-1.5 rounded-2xl border border-latte-300/80 shadow-sm">
+        <div className="grid grid-cols-3 gap-2 bg-latte-200/80 p-1.5 rounded-2xl border border-latte-300 shadow-sm">
           <button
             onClick={() => setItineraryDay(1)}
-            className={`py-2 rounded-xl text-xs font-bold text-center transition ${
+            className={`py-2 px-1 rounded-xl text-xs font-bold text-center transition ${
               itineraryDay === 1
-                ? 'bg-white text-terracotta-600 shadow-sm'
-                : 'text-latte-700 hover:text-latte-900'
+                ? 'bg-white text-terracotta-600 shadow-md border border-latte-300'
+                : 'text-latte-700 hover:text-latte-900 hover:bg-latte-100'
             }`}
           >
             Day 1 (Oct 17)
@@ -97,10 +108,10 @@ export const ItineraryView: React.FC = () => {
 
           <button
             onClick={() => setItineraryDay(2)}
-            className={`py-2 rounded-xl text-xs font-bold text-center transition ${
+            className={`py-2 px-1 rounded-xl text-xs font-bold text-center transition ${
               itineraryDay === 2
-                ? 'bg-white text-sage-600 shadow-sm'
-                : 'text-latte-700 hover:text-latte-900'
+                ? 'bg-white text-sage-600 shadow-md border border-latte-300'
+                : 'text-latte-700 hover:text-latte-900 hover:bg-latte-100'
             }`}
           >
             Day 2 (Oct 18)
@@ -110,10 +121,10 @@ export const ItineraryView: React.FC = () => {
 
           <button
             onClick={() => setItineraryDay(3)}
-            className={`py-2 rounded-xl text-xs font-bold text-center transition ${
+            className={`py-2 px-1 rounded-xl text-xs font-bold text-center transition ${
               itineraryDay === 3
-                ? 'bg-white text-mustard-600 shadow-sm'
-                : 'text-latte-700 hover:text-latte-900'
+                ? 'bg-white text-mustard-600 shadow-md border border-latte-300'
+                : 'text-latte-700 hover:text-latte-900 hover:bg-latte-100'
             }`}
           >
             Day 3 (Oct 19)
@@ -123,24 +134,28 @@ export const ItineraryView: React.FC = () => {
         </div>
       </div>
 
-      {/* Day Banner Card */}
+      {/* Day Banner Card (Guaranteed Opaque & High-Contrast) */}
       <div
-        className={`bg-gradient-to-r ${currentDayData.gradientClass} text-latte-50 p-4 rounded-3xl shadow-md`}
+        className={`${getBannerStyle(itineraryDay)} text-white p-5 rounded-3xl shadow-lg relative overflow-hidden`}
       >
-        <div className="flex items-center justify-between">
-          <span className="text-xs uppercase font-bold tracking-widest text-latte-200">
+        <div className="flex items-center justify-between mb-1.5">
+          <span className="text-xs uppercase font-bold tracking-wider text-latte-200">
             {currentDayData.date}
           </span>
-          <span className={`text-xs px-2.5 py-0.5 rounded-full font-medium ${currentDayData.badgeColor}`}>
+          <span className="text-[11px] px-2.5 py-0.5 rounded-full font-semibold bg-white/20 text-white backdrop-blur-sm border border-white/20">
             {currentDayData.badge}
           </span>
         </div>
-        <h2 className="font-serif text-xl font-bold mt-1 text-white">{currentDayData.title}</h2>
-        <p className="text-xs text-latte-100/90 mt-1 leading-relaxed">{currentDayData.subtitle}</p>
+        <h2 className="font-serif text-xl font-bold text-white tracking-tight">
+          {currentDayData.title}
+        </h2>
+        <p className="text-xs text-latte-100 mt-1 leading-relaxed">
+          {currentDayData.subtitle}
+        </p>
       </div>
 
-      {/* Timeline Stops Container */}
-      <div className="relative pl-6 space-y-5 before:content-[''] before:absolute before:left-2.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-latte-300">
+      {/* Timeline Stops */}
+      <div className="relative pl-6 space-y-4 before:content-[''] before:absolute before:left-2.5 before:top-3 before:bottom-3 before:w-0.5 before:bg-latte-300">
         {currentDayData.stops.map((stop) => {
           const isDone = !!completedStops[stop.id];
 
@@ -148,7 +163,7 @@ export const ItineraryView: React.FC = () => {
             <div key={stop.id} className="relative flex items-start group">
               {/* Bullet Node */}
               <div
-                className={`absolute -left-6 top-1 w-5 h-5 rounded-full border-2 border-white flex items-center justify-center text-white text-[10px] shadow-sm transition ${
+                className={`absolute -left-6 top-1.5 w-5 h-5 rounded-full border-2 border-white flex items-center justify-center text-white text-[10px] shadow-sm transition ${
                   isDone
                     ? 'bg-sage-600'
                     : itineraryDay === 1
@@ -163,10 +178,10 @@ export const ItineraryView: React.FC = () => {
 
               {/* Stop Card */}
               <div
-                className={`w-full bg-white p-3.5 rounded-2xl border transition shadow-sm ${
+                className={`w-full p-4 rounded-2xl border transition shadow-sm ${
                   isDone
-                    ? 'border-sage-300 bg-sage-50/40'
-                    : 'border-latte-200 hover:border-terracotta-400'
+                    ? 'border-sage-300 bg-sage-50/70 text-latte-800'
+                    : 'border-latte-200 bg-white hover:border-terracotta-400 text-latte-900'
                 }`}
               >
                 <div className="flex items-center justify-between">
@@ -185,7 +200,7 @@ export const ItineraryView: React.FC = () => {
                   </span>
 
                   {stop.badgeText ? (
-                    <span className="text-[10px] font-semibold text-latte-600 bg-latte-100 px-2 py-0.5 rounded-md">
+                    <span className="text-[10px] font-semibold text-latte-700 bg-latte-100 px-2 py-0.5 rounded-md border border-latte-200">
                       {stop.badgeText}
                     </span>
                   ) : (
@@ -216,7 +231,7 @@ export const ItineraryView: React.FC = () => {
                 </div>
 
                 <h4
-                  className={`font-bold text-sm text-latte-900 mt-1 ${
+                  className={`font-serif font-bold text-sm text-latte-900 mt-1 ${
                     isDone ? 'line-through text-latte-600' : ''
                   }`}
                 >
@@ -226,7 +241,7 @@ export const ItineraryView: React.FC = () => {
                 <p className="text-xs text-latte-600 mt-1 leading-relaxed">{stop.description}</p>
 
                 {stop.tip && (
-                  <div className="mt-2 text-[11px] text-sage-600 font-medium flex items-center gap-1">
+                  <div className="mt-2 text-[11px] text-sage-700 font-medium flex items-center gap-1">
                     <Info className="w-3.5 h-3.5 shrink-0" />
                     <span>{stop.tip}</span>
                   </div>
@@ -235,7 +250,7 @@ export const ItineraryView: React.FC = () => {
                 {stop.orderRecommendation && (
                   <div className="bg-latte-50 p-2 rounded-xl mt-2 border border-latte-200 text-xs">
                     <p className="font-semibold text-latte-800 flex items-center gap-1">
-                      <Sparkles className="w-3 h-3 text-terracotta-500" /> Order Recommendation:
+                      <Sparkles className="w-3 h-3 text-terracotta-500" /> Must-try:
                     </p>
                     <p className="text-latte-600 text-[11px] mt-0.5">{stop.orderRecommendation}</p>
                   </div>
@@ -245,7 +260,7 @@ export const ItineraryView: React.FC = () => {
                   {stop.spotId && (
                     <button
                       onClick={() => focusOnSpot(stop.spotId!)}
-                      className="text-[11px] text-terracotta-600 bg-terracotta-50 hover:bg-terracotta-100 px-2.5 py-1 rounded-lg font-medium flex items-center gap-1 transition active:scale-95 border border-terracotta-200/50"
+                      className="text-[11px] text-terracotta-600 bg-terracotta-50 hover:bg-terracotta-100 px-2.5 py-1 rounded-lg font-medium flex items-center gap-1 transition active:scale-95 border border-terracotta-200/60"
                     >
                       <MapPin className="w-3 h-3 text-terracotta-500" />
                       <span>{stop.spotLabel || 'View on Map'}</span>
@@ -255,7 +270,7 @@ export const ItineraryView: React.FC = () => {
                   {stop.secondarySpotId && (
                     <button
                       onClick={() => focusOnSpot(stop.secondarySpotId!)}
-                      className="text-[11px] text-latte-700 bg-latte-100 hover:bg-latte-200 px-2.5 py-1 rounded-lg font-medium flex items-center gap-1 transition active:scale-95"
+                      className="text-[11px] text-latte-700 bg-latte-100 hover:bg-latte-200 px-2.5 py-1 rounded-lg font-medium flex items-center gap-1 transition active:scale-95 border border-latte-300"
                     >
                       <Bus className="w-3 h-3 text-terracotta-500" />
                       <span>{stop.secondarySpotLabel || 'Dau Terminal'}</span>

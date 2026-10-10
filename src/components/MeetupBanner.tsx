@@ -14,8 +14,8 @@ export const MeetupBanner: React.FC = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-terracotta-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-terracotta-500"></span>
           </span>
-          <span className="truncate font-medium">
-            <strong>Oct 17 @ 9:30 AM:</strong> Dau Terminal Meetup (Tarlac Bus Arrival)
+          <span className="truncate text-xs text-latte-800">
+            <strong>Meetup:</strong> Oct 17 @ 9:30 AM • Dau Terminal (Tarlac Bus)
           </span>
         </div>
         <button

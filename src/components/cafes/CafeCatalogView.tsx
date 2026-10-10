@@ -100,20 +100,20 @@ export const CafeCatalogView: React.FC = () => {
             const isFav = !!favorites[spot.id];
             const isVisited = !!visited[spot.id];
 
-            let dayBadgeColor = 'bg-terracotta-100 text-terracotta-700';
+            let dayBadgeColor = 'bg-[#C86446] text-white';
             let dayText = 'Day 1';
 
             if (spot.id === 'dau-terminal') {
-              dayBadgeColor = 'bg-latte-900 text-latte-100';
-              dayText = 'Pickup Point';
+              dayBadgeColor = 'bg-[#2C1810] text-[#FDFBF7]';
+              dayText = 'Pickup';
             } else if (spot.day === 'day2') {
-              dayBadgeColor = 'bg-emerald-100 text-emerald-800';
+              dayBadgeColor = 'bg-[#54755B] text-white';
               dayText = 'Day 2';
             } else if (spot.day === 'day3') {
-              dayBadgeColor = 'bg-amber-100 text-amber-800';
+              dayBadgeColor = 'bg-[#D4973B] text-white';
               dayText = 'Day 3';
             } else if (spot.day === 'wishlist') {
-              dayBadgeColor = 'bg-purple-100 text-purple-700';
+              dayBadgeColor = 'bg-[#8E44AD] text-white';
               dayText = 'Wishlist';
             }
 
