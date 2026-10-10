@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient: Espresso to Mocha -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3D2217" />
+      <stop offset="100%" stop-color="#1E100B" />
+    </linearGradient>
+
+    <!-- Terracotta Cup Gradient -->
+    <linearGradient id="cupGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E07A5F" />
+      <stop offset="100%" stop-color="#B85539" />
+    </linearGradient>
+
+    <!-- Steam Gradient -->
+    <linearGradient id="steamGrad" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#E07A5F" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#F7F3EA" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#FCF5E8" stop-opacity="0.2" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="subtleGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#C86446" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <!-- Base Circle -->
+  <circle cx="256" cy="256" r="240" fill="url(#bgGrad)" />
+
+  <!-- Outer Ring Accent -->
+  <circle cx="256" cy="256" r="224" fill="none" stroke="#EFE7D8" stroke-width="6" stroke-opacity="0.2" />
+  <circle cx="256" cy="256" r="228" fill="none" stroke="#E07A5F" stroke-width="2" stroke-dasharray="14 10" stroke-opacity="0.4" />
+
+  <!-- Saucer Base -->
+  <ellipse cx="256" cy="382" rx="142" ry="24" fill="#140B07" opacity="0.6" />
+  <ellipse cx="256" cy="376" rx="136" ry="18" fill="#5F442D" />
+  <ellipse cx="256" cy="373" rx="130" ry="14" fill="#DFCDB8" opacity="0.95" />
+
+  <!-- Cup Handle -->
+  <path d="M 324 246 C 382 246 394 326 322 338" 
+        fill="none" 
+        stroke="url(#cupGrad)" 
+        stroke-width="26" 
+        stroke-linecap="round" />
+
+  <!-- Coffee Cup Body -->
+  <path d="M 166 226 L 346 226 C 344 324 316 364 256 364 C 196 364 168 324 166 226 Z" 
+        fill="url(#cupGrad)" 
+        filter="url(#subtleGlow)" />
+
+  <!-- Cup Rim Highlight -->
+  <ellipse cx="256" cy="226" rx="90" ry="20" fill="#FCF5E8" />
+  <!-- Coffee Surface Inside Cup -->
+  <ellipse cx="256" cy="227" rx="84" ry="16" fill="#3D2217" />
+  <!-- Crema / Latte Art Ring -->
+  <ellipse cx="256" cy="227" rx="74" ry="12" fill="#8E6545" opacity="0.8" />
+  <ellipse cx="256" cy="227" rx="60" ry="8" fill="#CDB194" opacity="0.6" />
+
+  <!-- Heart Latte Art on Coffee Surface -->
+  <path d="M 256 230 C 256 230 244 222 244 226 C 244 230 256 234 256 234 C 256 234 268 230 268 226 C 268 222 256 230 256 230 Z" 
+        fill="#FDFBF7" opacity="0.9" />
+
+  <!-- Couple Heart Rising Steam (Kwentuhan & Love) -->
+  <!-- Left Steam Swirl -->
+  <path d="M 226 200 C 210 168 198 140 220 114 C 238 92 254 112 256 128 C 258 112 274 92 292 114 C 314 140 302 168 286 200" 
+        fill="none" 
+        stroke="url(#steamGrad)" 
+        stroke-width="12" 
+        stroke-linecap="round" />
+
+  <!-- Floating Warm Heart Above Steam -->
+  <path d="M 256 92 C 256 92 238 72 238 84 C 238 96 256 108 256 108 C 256 108 274 96 274 84 C 274 72 256 92 256 92 Z" 
+        fill="#E07A5F" />
+
+  <!-- Little Sparkle Stars (Discovery & Moments) -->
+  <g fill="#D4973B">
+    <!-- Star 1 Top Right -->
+    <path d="M 360 140 Q 360 152 372 152 Q 360 152 360 164 Q 360 152 348 152 Q 360 152 360 140 Z" />
+    <!-- Star 2 Top Left -->
+    <path d="M 148 168 Q 148 178 158 178 Q 148 178 148 188 Q 148 178 138 178 Q 148 178 148 168 Z" opacity="0.8" />
+  </g>
+</svg>

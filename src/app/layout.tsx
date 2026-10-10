@@ -21,6 +21,15 @@ export const metadata: Metadata = {
   description: "A romantic weekend cafe hopping and heritage food adventure across Clark, Angeles City, and San Fernando, Pampanga.",
   keywords: ["Pampanga cafes", "Clark coffee shops", "Pampanga food trip", "Kape't Kwentuhan", "Angeles cafes"],
   authors: [{ name: "Kape't Kwentuhan" }],
+  icons: {
+    icon: [
+      { url: '/icon.svg', type: 'image/svg+xml' }
+    ],
+    apple: [
+      { url: '/icon.svg', type: 'image/svg+xml' }
+    ],
+    shortcut: ['/icon.svg'],
+  },
 };
 
 export const viewport: Viewport = {
