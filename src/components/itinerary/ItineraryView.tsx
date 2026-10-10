@@ -20,14 +20,26 @@ import {
   Circle,
   Info,
   Sparkles,
+  Pencil,
+  Plus,
+  RotateCcw,
 } from 'lucide-react';
 import { useTrip } from '@/context/TripContext';
-import { ITINERARY_DAYS } from '@/data/itinerary';
 
 export const ItineraryView: React.FC = () => {
-  const { itineraryDay, setItineraryDay, completedStops, toggleStopCompleted, focusOnSpot } = useTrip();
+  const {
+    itineraryDay,
+    setItineraryDay,
+    itineraryDays,
+    completedStops,
+    toggleStopCompleted,
+    focusOnSpot,
+    setEditingStop,
+    setIsAddActivityModalOpen,
+    resetItinerary,
+  } = useTrip();
 
-  const currentDayData = ITINERARY_DAYS.find((d) => d.day === itineraryDay) || ITINERARY_DAYS[0];
+  const currentDayData = itineraryDays.find((d) => d.day === itineraryDay) || itineraryDays[0];
 
   const triggerConfetti = (e: React.MouseEvent) => {
     try {
@@ -77,7 +89,6 @@ export const ItineraryView: React.FC = () => {
     }
   };
 
-  // Explicit solid gradients per day to guarantee zero transparency and high contrast
   const getBannerStyle = (day: 1 | 2 | 3) => {
     if (day === 1) {
       return 'bg-gradient-to-r from-[#2C1810] via-[#5F442D] to-[#C86446] border border-[#5F442D]';
@@ -134,7 +145,7 @@ export const ItineraryView: React.FC = () => {
         </div>
       </div>
 
-      {/* Day Banner Card (Guaranteed Opaque & High-Contrast) */}
+      {/* Day Banner Card */}
       <div
         className={`${getBannerStyle(itineraryDay)} text-white p-5 rounded-3xl shadow-lg relative overflow-hidden`}
       >
@@ -146,12 +157,33 @@ export const ItineraryView: React.FC = () => {
             {currentDayData.badge}
           </span>
         </div>
+
         <h2 className="font-serif text-xl font-bold text-white tracking-tight">
           {currentDayData.title}
         </h2>
         <p className="text-xs text-latte-100 mt-1 leading-relaxed">
           {currentDayData.subtitle}
         </p>
+
+        {/* Action Bar for Customizing Itinerary */}
+        <div className="mt-3.5 pt-3 border-t border-white/20 flex items-center justify-between">
+          <button
+            onClick={() => setIsAddActivityModalOpen(true)}
+            className="px-3 py-1.5 rounded-xl bg-white/20 hover:bg-white/30 text-white text-xs font-semibold flex items-center gap-1.5 transition active:scale-95 backdrop-blur-sm border border-white/30"
+          >
+            <Plus className="w-3.5 h-3.5" />
+            <span>Add Activity</span>
+          </button>
+
+          <button
+            onClick={resetItinerary}
+            className="text-[11px] text-latte-200 hover:text-white flex items-center gap-1 transition opacity-80 hover:opacity-100"
+            title="Restore original curated plan"
+          >
+            <RotateCcw className="w-3 h-3" />
+            <span>Reset Plan</span>
+          </button>
+        </div>
       </div>
 
       {/* Timeline Stops */}
@@ -199,35 +231,46 @@ export const ItineraryView: React.FC = () => {
                     {stop.time}
                   </span>
 
-                  {stop.badgeText ? (
-                    <span className="text-[10px] font-semibold text-latte-700 bg-latte-100 px-2 py-0.5 rounded-md border border-latte-200">
-                      {stop.badgeText}
-                    </span>
-                  ) : (
+                  <div className="flex items-center space-x-1.5">
+                    {/* EDIT STOP BUTTON */}
                     <button
-                      onClick={(e) => {
-                        toggleStopCompleted(stop.id);
-                        if (!isDone) triggerConfetti(e);
-                      }}
-                      className={`text-xs flex items-center gap-1 font-semibold transition active:scale-95 ${
-                        isDone
-                          ? 'text-sage-600 font-bold'
-                          : 'text-latte-400 hover:text-sage-600'
-                      }`}
+                      onClick={() => setEditingStop({ day: itineraryDay, stop })}
+                      className="p-1 rounded-lg text-latte-400 hover:text-terracotta-600 hover:bg-latte-100 transition active:scale-95"
+                      title="Edit this activity"
                     >
-                      {isDone ? (
-                        <>
-                          <CheckCircle2 className="w-4 h-4 text-sage-600" />
-                          <span>Done</span>
-                        </>
-                      ) : (
-                        <>
-                          <Circle className="w-4 h-4" />
-                          <span>Check-in</span>
-                        </>
-                      )}
+                      <Pencil className="w-3.5 h-3.5" />
                     </button>
-                  )}
+
+                    {stop.badgeText ? (
+                      <span className="text-[10px] font-semibold text-latte-700 bg-latte-100 px-2 py-0.5 rounded-md border border-latte-200">
+                        {stop.badgeText}
+                      </span>
+                    ) : (
+                      <button
+                        onClick={(e) => {
+                          toggleStopCompleted(stop.id);
+                          if (!isDone) triggerConfetti(e);
+                        }}
+                        className={`text-xs flex items-center gap-1 font-semibold transition active:scale-95 ${
+                          isDone
+                            ? 'text-sage-600 font-bold'
+                            : 'text-latte-400 hover:text-sage-600'
+                        }`}
+                      >
+                        {isDone ? (
+                          <>
+                            <CheckCircle2 className="w-4 h-4 text-sage-600" />
+                            <span>Done</span>
+                          </>
+                        ) : (
+                          <>
+                            <Circle className="w-4 h-4" />
+                            <span>Check-in</span>
+                          </>
+                        )}
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 <h4
@@ -250,7 +293,7 @@ export const ItineraryView: React.FC = () => {
                 {stop.orderRecommendation && (
                   <div className="bg-latte-50 p-2 rounded-xl mt-2 border border-latte-200 text-xs">
                     <p className="font-semibold text-latte-800 flex items-center gap-1">
-                      <Sparkles className="w-3 h-3 text-terracotta-500" /> Must-try:
+                      <Sparkles className="w-3.5 h-3.5 text-terracotta-500" /> Must-try:
                     </p>
                     <p className="text-latte-600 text-[11px] mt-0.5">{stop.orderRecommendation}</p>
                   </div>

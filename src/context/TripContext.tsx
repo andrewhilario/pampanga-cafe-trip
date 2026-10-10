@@ -1,9 +1,10 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
-import { Spot, DiaryEntry, TabId, MapFilter, CatalogTag } from '@/types';
+import { Spot, DiaryEntry, TabId, MapFilter, CatalogTag, ItineraryDay, ItineraryStop } from '@/types';
 import { INITIAL_SPOTS } from '@/data/spots';
 import { INITIAL_DIARY_ENTRIES, INITIAL_CHECKLIST } from '@/data/tips';
+import { ITINERARY_DAYS } from '@/data/itinerary';
 
 interface ToastState {
   message: string;
@@ -26,6 +27,15 @@ interface TripContextType {
   setSearchQuery: (query: string) => void;
   itineraryDay: 1 | 2 | 3;
   setItineraryDay: (day: 1 | 2 | 3) => void;
+  itineraryDays: ItineraryDay[];
+  updateItineraryStop: (dayNumber: 1 | 2 | 3, stopId: string, updatedData: Partial<ItineraryStop>) => void;
+  addItineraryStop: (dayNumber: 1 | 2 | 3, newStop: Omit<ItineraryStop, 'id'>) => void;
+  deleteItineraryStop: (dayNumber: 1 | 2 | 3, stopId: string) => void;
+  resetItinerary: () => void;
+  editingStop: { day: 1 | 2 | 3; stop: ItineraryStop } | null;
+  setEditingStop: (data: { day: 1 | 2 | 3; stop: ItineraryStop } | null) => void;
+  isAddActivityModalOpen: boolean;
+  setIsAddActivityModalOpen: (open: boolean) => void;
   favorites: Record<string, boolean>;
   toggleFavorite: (id: string) => void;
   visited: Record<string, boolean>;
@@ -53,7 +63,7 @@ interface TripContextType {
 
 const TripContext = createContext<TripContextType | undefined>(undefined);
 
-const STORAGE_KEY = 'pampanga_trip_state_v3';
+const STORAGE_KEY = 'pampanga_trip_state_v4';
 const TOKEN_STORAGE_KEY = 'pampanga_mapbox_token';
 
 export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -64,6 +74,10 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [catalogTag, setCatalogTag] = useState<CatalogTag>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [itineraryDay, setItineraryDay] = useState<1 | 2 | 3>(1);
+  const [itineraryDays, setItineraryDays] = useState<ItineraryDay[]>(ITINERARY_DAYS);
+  const [editingStop, setEditingStop] = useState<{ day: 1 | 2 | 3; stop: ItineraryStop } | null>(null);
+  const [isAddActivityModalOpen, setIsAddActivityModalOpen] = useState(false);
+
   const [favorites, setFavorites] = useState<Record<string, boolean>>({});
   const [visited, setVisited] = useState<Record<string, boolean>>({});
   const [completedStops, setCompletedStops] = useState<Record<string, boolean>>({});
@@ -97,6 +111,7 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (parsed.checklist) setChecklist(parsed.checklist);
         if (parsed.diaryEntries && Array.isArray(parsed.diaryEntries)) setDiaryEntries(parsed.diaryEntries);
         if (parsed.customSpots && Array.isArray(parsed.customSpots)) setCustomSpots(parsed.customSpots);
+        if (parsed.itineraryDays && Array.isArray(parsed.itineraryDays)) setItineraryDays(parsed.itineraryDays);
       }
 
       const storedToken = localStorage.getItem(TOKEN_STORAGE_KEY);
@@ -105,8 +120,8 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
       } else if (process.env.NEXT_PUBLIC_MAPBOX_TOKEN) {
         setMapboxTokenState(process.env.NEXT_PUBLIC_MAPBOX_TOKEN);
       }
-    } catch (e) {
-      console.warn('Failed to rehydrate local state:', e);
+    } catch {
+      console.warn('Failed to rehydrate local state');
     }
   }, []);
 
@@ -119,14 +134,15 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
       checklist?: Record<string, boolean>;
       diaryEntries?: DiaryEntry[];
       customSpots?: Spot[];
+      itineraryDays?: ItineraryDay[];
     }) => {
       try {
         const current = localStorage.getItem(STORAGE_KEY);
         const parsed = current ? JSON.parse(current) : {};
         const merged = { ...parsed, ...nextState };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(merged));
-      } catch (e) {
-        console.warn('Failed to persist local state:', e);
+      } catch {
+        console.warn('Failed to persist local state');
       }
     },
     []
@@ -169,6 +185,70 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
     },
     [saveStateToStorage, showToast]
   );
+
+  const updateItineraryStop = useCallback(
+    (dayNumber: 1 | 2 | 3, stopId: string, updatedData: Partial<ItineraryStop>) => {
+      setItineraryDays((prev) => {
+        const next = prev.map((dayPlan) => {
+          if (dayPlan.day !== dayNumber) return dayPlan;
+          return {
+            ...dayPlan,
+            stops: dayPlan.stops.map((s) => (s.id === stopId ? { ...s, ...updatedData } : s)),
+          };
+        });
+        saveStateToStorage({ itineraryDays: next });
+        return next;
+      });
+      showToast('Activity updated! ✨');
+    },
+    [saveStateToStorage, showToast]
+  );
+
+  const addItineraryStop = useCallback(
+    (dayNumber: 1 | 2 | 3, newStopData: Omit<ItineraryStop, 'id'>) => {
+      const newStop: ItineraryStop = {
+        ...newStopData,
+        id: `custom-stop-${Date.now()}`,
+      };
+      setItineraryDays((prev) => {
+        const next = prev.map((dayPlan) => {
+          if (dayPlan.day !== dayNumber) return dayPlan;
+          return {
+            ...dayPlan,
+            stops: [...dayPlan.stops, newStop],
+          };
+        });
+        saveStateToStorage({ itineraryDays: next });
+        return next;
+      });
+      showToast('New activity added to the plan! 🎉');
+    },
+    [saveStateToStorage, showToast]
+  );
+
+  const deleteItineraryStop = useCallback(
+    (dayNumber: 1 | 2 | 3, stopId: string) => {
+      setItineraryDays((prev) => {
+        const next = prev.map((dayPlan) => {
+          if (dayPlan.day !== dayNumber) return dayPlan;
+          return {
+            ...dayPlan,
+            stops: dayPlan.stops.filter((s) => s.id !== stopId),
+          };
+        });
+        saveStateToStorage({ itineraryDays: next });
+        return next;
+      });
+      showToast('Activity removed from plan');
+    },
+    [saveStateToStorage, showToast]
+  );
+
+  const resetItinerary = useCallback(() => {
+    setItineraryDays(ITINERARY_DAYS);
+    saveStateToStorage({ itineraryDays: ITINERARY_DAYS });
+    showToast('Reset itinerary back to curated plan ☕');
+  }, [saveStateToStorage, showToast]);
 
   const toggleFavorite = useCallback(
     (id: string) => {
@@ -269,6 +349,15 @@ export const TripProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setSearchQuery,
         itineraryDay,
         setItineraryDay,
+        itineraryDays,
+        updateItineraryStop,
+        addItineraryStop,
+        deleteItineraryStop,
+        resetItinerary,
+        editingStop,
+        setEditingStop,
+        isAddActivityModalOpen,
+        setIsAddActivityModalOpen,
         favorites,
         toggleFavorite,
         visited,

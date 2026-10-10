@@ -14,6 +14,8 @@ import { TipsView } from '@/components/tips/TipsView';
 import { AddSpotModal } from '@/components/modals/AddSpotModal';
 import { ShareModal } from '@/components/modals/ShareModal';
 import { MapboxTokenModal } from '@/components/modals/MapboxTokenModal';
+import { EditItineraryModal } from '@/components/modals/EditItineraryModal';
+import { AddActivityModal } from '@/components/modals/AddActivityModal';
 
 export const MainPlanner: React.FC = () => {
   const { activeTab } = useTrip();
@@ -50,6 +52,8 @@ export const MainPlanner: React.FC = () => {
       <AddSpotModal />
       <ShareModal />
       <MapboxTokenModal />
+      <EditItineraryModal />
+      <AddActivityModal />
 
       {/* Toast Notification */}
       <Toast />
